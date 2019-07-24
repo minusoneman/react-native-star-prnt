@@ -436,6 +436,13 @@ RCT_REMAP_METHOD(print, portName:(NSString *)portName
         else if ([command valueForKey:@"appendCutPaper"]) [builder appendCutPaper:[self getCutPaperAction:[command valueForKey:@"appendCutPaper"]]];
         else if ([command valueForKey:@"openCashDrawer"])[builder appendPeripheral:[self getPeripheralChannel:[command valueForKey:@"openCashDrawer"]]];
         else if ([command valueForKey:@"appendBlackMark"]) [builder appendBlackMark:[self getBlackMarkType:[command valueForKey:@"appendBlackMark"]]];
+        else if ([command valueForKey:@"beginPageMode"]) {
+            int height = 30 * 8; // 30mm!!!
+            int width = 50 * 8;
+            CGRect rect = CGRectMake(0, 0, width, height);
+            [builder beginPageMode:rect rotation:SCBBitmapConverterRotationNormal];
+        }
+        else if ([command valueForKey:@"endPageMode"])  [builder endPageMode];
         else if ([command valueForKey:@"appendBytes"]){
             NSMutableArray *byteArray = nil;
             byteArray = [command valueForKey:@"appendBytes"];
@@ -527,6 +534,14 @@ RCT_REMAP_METHOD(print, portName:(NSString *)portName
             }
             else [builder appendQrCodeData:[[command valueForKey:@"appendQrCode"] dataUsingEncoding:encoding]
                                      model:qrCodeModel level:qrCodeLevel cell:cell];
+        }
+        else if ([command valueForKey:@"multiQrCode"]) {
+            NSString *qrLeft = [command valueForKey:@"appendQrCodeLeft"];
+            NSString *qrRight = [command valueForKey:@"appendQrCodeRight"];
+            
+            UIImage *image = [self multiQrCode:qrLeft string:qrRight];
+            
+            [builder appendBitmap:image diffusion:NO];
         }
         else if ([command valueForKey:@"appendBitmap"]) {
             NSString *urlString = [command valueForKey:@"appendBitmap"];
@@ -782,6 +797,44 @@ RCT_REMAP_METHOD(print, portName:(NSString *)portName
               @"StarLine" : @(StarIoExtEmulationStarLine)};
 };
 
+- (UIImage *)multiQrCode:(NSString *)qrLeftString string:(NSString *)qrRightString {
+
+    CGSize size = CGSizeMake(350, 150);
+    
+    // QR Left
+    CIFilter *qrLeftFilter = [CIFilter filterWithName:@"CIQRCodeGenerator"];
+    NSData *qrLeftData = [qrLeftString dataUsingEncoding:NSUTF8StringEncoding];
+    
+    [qrLeftFilter setValue: qrLeftData forKey:@"inputMessage"];
+    [qrLeftFilter setValue:@"L" forKey: @"inputCorrectionLevel"];
+    
+    CIImage *qrLeftImage = qrLeftFilter.outputImage;
+    UIImage *leftQR = [[UIImage alloc] initWithCIImage:qrLeftImage];
+    
+    // QR Right
+    CIFilter *qrRightFilter = [CIFilter filterWithName:@"CIQRCodeGenerator"];
+    NSData * qrRightData = [qrRightString dataUsingEncoding:NSUTF8StringEncoding];
+    
+    [qrRightFilter setValue: qrRightData forKey:@"inputMessage"];
+    [qrRightFilter setValue:@"L" forKey: @"inputCorrectionLevel"];
+    
+    CIImage *qrRightImage = qrRightFilter.outputImage;
+    UIImage *rightQR = [[UIImage alloc] initWithCIImage:qrRightImage];
+    
+    
+    UIGraphicsBeginImageContext(size);
+    
+    [leftQR drawInRect:CGRectMake(0, 0, 150, 150)];
+    
+    [rightQR drawInRect:CGRectMake(200, 0, 150, 150)];
+    
+    UIImage *qrCodesImage = UIGraphicsGetImageFromCurrentImageContext();
+    
+    UIGraphicsEndImageContext();
+    
+    return qrCodesImage;
+};
+
 - (UIImage *)imageWithString:(NSString *)string font:(UIFont *)font width:(CGFloat)width {
     NSDictionary *attributeDic = @{NSFontAttributeName:font};
     
@@ -823,5 +876,3 @@ RCT_REMAP_METHOD(print, portName:(NSString *)portName
 }
 
 @end
-
-
