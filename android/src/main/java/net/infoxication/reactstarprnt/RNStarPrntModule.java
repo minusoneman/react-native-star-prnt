@@ -58,6 +58,9 @@ import com.starmicronics.starioextension.ICommandBuilder.CodePageType;
 import com.starmicronics.starioextension.StarIoExtManager;
 import com.starmicronics.starioextension.StarIoExtManagerListener;
 
+import net.glxn.qrgen.android.QRCode;
+import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONException;
@@ -599,6 +602,22 @@ public class RNStarPrntModule extends ReactContextBaseJavaModule {
                     ICommandBuilder.AlignmentPosition alignmentPosition = getAlignment(command.getString("alignment"));
                     builder.appendBitmapWithAlignment(bitmap, diffusion, width, bothScale, rotation, alignmentPosition);
                 }else builder.appendBitmap(bitmap, diffusion, width, bothScale, rotation);
+            } else if (command.hasKey("appendInversedBitmapText")) {
+                int fontSize = (command.hasKey("fontSize")) ? command.getInt("fontSize") : 25;
+                boolean diffusion = (command.hasKey("diffusion")) ? command.getBoolean("diffusion") : true;
+                int width = (command.hasKey("width")) ? command.getInt("width") : 576;
+                boolean bothScale = (command.hasKey("bothScale")) ? command.getBoolean("bothScale") : true;
+                String text = command.getString("appendBitmapText");
+                Typeface typeface = Typeface.create(Typeface.MONOSPACE, Typeface.NORMAL);
+                Bitmap bitmap = createInversedBitmapFromText(text, fontSize, width, typeface);
+
+                builder.appendBitmap(bitmap, diffusion, width, bothScale);
+            } else if (command.hasKey("multiQrCode")) {
+                String qrLeft = command.getString("appendQrCodeLeft");
+                String qrRight = command.getString("appendQrCodeRight");
+
+                Bitmap bitmap = createMultiQrCode(qrLeft, qrRight);
+                builder.appendBitmap(bitmap, false);
             }
         }
     };
@@ -833,6 +852,49 @@ public class RNStarPrntModule extends ReactContextBaseJavaModule {
 
         return bitmap;
     }
+
+    private Bitmap createInversedBitmapFromText(String printText, int textSize, int printWidth, Typeface typeface) {
+        Paint paint = new Paint();
+        Bitmap bitmap;
+        Canvas canvas;
+
+        paint.setTextSize(textSize);
+        paint.setTypeface(typeface);
+        paint.setColor(Color.WHITE);
+        paint.getTextBounds(printText, 0, printText.length(), new Rect());
+
+        TextPaint textPaint = new TextPaint(paint);
+        android.text.StaticLayout staticLayout = new StaticLayout(printText, textPaint, printWidth, Layout.Alignment.ALIGN_NORMAL, 1, 0, false);
+
+        // Create bitmap
+        bitmap = Bitmap.createBitmap(staticLayout.getWidth(), staticLayout.getHeight(), Bitmap.Config.ARGB_8888);
+
+        // Create canvas
+        canvas = new Canvas(bitmap);
+        canvas.drawColor(Color.BLACK);
+        canvas.translate(0, 0);
+        staticLayout.draw(canvas);
+
+        return bitmap;
+    }
+
+    private Bitmap createMultiQrCode(String qrLeft, String qrRight) {
+        Paint paint = new Paint();
+        Bitmap bitmap;
+        Canvas canvas;
+
+        Bitmap qrLeftCode = QRCode.from(qrLeft).withErrorCorrection(ErrorCorrectionLevel.L).bitmap();
+        Bitmap qrRightCode = QRCode.from(qrLeft).withErrorCorrection(ErrorCorrectionLevel.L).bitmap();
+
+        // Create canvas
+        bitmap = Bitmap.createBitmap(350, 150, Bitmap.Config.ARGB_8888);
+        canvas = new Canvas(bitmap);
+        canvas.drawBitmap(qrLeftCode, null, new Rect(0,0,150,150), null);
+        canvas.drawBitmap(qrRightCode, null, new Rect(200, 0,150,150), null);
+
+        return bitmap;
+    }
+
 
 
     private StarIoExtManagerListener starIoExtManagerListener = new StarIoExtManagerListener() {
