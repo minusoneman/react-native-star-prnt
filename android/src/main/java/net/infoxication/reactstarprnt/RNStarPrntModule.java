@@ -167,7 +167,7 @@ public class RNStarPrntModule extends ReactContextBaseJavaModule {
 
     String portSettings = getPortSettingsOption(emulation);
     if (starIoExtManager != null && starIoExtManager.getPort() != null) {
-      starIoExtManager.disconnect(null);
+      //starIoExtManager.disconnect(null);
     }
     starIoExtManager = new StarIoExtManager(hasBarcodeReader ? StarIoExtManager.Type.WithBarcodeReader : StarIoExtManager.Type.Standard, portName, portSettings, 10000, context);
     starIoExtManager.setListener(starIoExtManagerListener);
@@ -587,7 +587,7 @@ public class RNStarPrntModule extends ReactContextBaseJavaModule {
 
                 }
             } else if (command.hasKey("appendBitmapText")){
-                int fontSize = (command.hasKey("fontSize")) ? command.getInt("fontSize") : 25;
+                int fontSize = (command.hasKey("fontSize")) ? command.getInt("fontSize") * 2 : 25;
                 boolean diffusion = (command.hasKey("diffusion")) ? command.getBoolean("diffusion") : true;
                 int width = (command.hasKey("width")) ? command.getInt("width") : 576;
                 boolean bothScale = (command.hasKey("bothScale")) ? command.getBoolean("bothScale") : true;
@@ -603,11 +603,11 @@ public class RNStarPrntModule extends ReactContextBaseJavaModule {
                     builder.appendBitmapWithAlignment(bitmap, diffusion, width, bothScale, rotation, alignmentPosition);
                 }else builder.appendBitmap(bitmap, diffusion, width, bothScale, rotation);
             } else if (command.hasKey("appendInversedBitmapText")) {
-                int fontSize = (command.hasKey("fontSize")) ? command.getInt("fontSize") : 25;
+                int fontSize = (command.hasKey("fontSize")) ? command.getInt("fontSize") * 2 : 25;
                 boolean diffusion = (command.hasKey("diffusion")) ? command.getBoolean("diffusion") : true;
                 int width = (command.hasKey("width")) ? command.getInt("width") : 576;
                 boolean bothScale = (command.hasKey("bothScale")) ? command.getBoolean("bothScale") : true;
-                String text = command.getString("appendBitmapText");
+                String text = command.getString("appendInversedBitmapText");
                 Typeface typeface = Typeface.create(Typeface.MONOSPACE, Typeface.NORMAL);
                 Bitmap bitmap = createInversedBitmapFromText(text, fontSize, width, typeface);
 
@@ -883,14 +883,14 @@ public class RNStarPrntModule extends ReactContextBaseJavaModule {
         Bitmap bitmap;
         Canvas canvas;
 
-        Bitmap qrLeftCode = QRCode.from(qrLeft).withErrorCorrection(ErrorCorrectionLevel.L).bitmap();
-        Bitmap qrRightCode = QRCode.from(qrLeft).withErrorCorrection(ErrorCorrectionLevel.L).bitmap();
+        Bitmap qrLeftCode = QRCode.from(qrLeft).withErrorCorrection(ErrorCorrectionLevel.L).withSize(170, 170).bitmap();
+        Bitmap qrRightCode = QRCode.from(qrRight).withErrorCorrection(ErrorCorrectionLevel.L).withSize(170, 170).bitmap();
 
         // Create canvas
-        bitmap = Bitmap.createBitmap(350, 150, Bitmap.Config.ARGB_8888);
+        bitmap = Bitmap.createBitmap(400, 170, Bitmap.Config.ARGB_8888);
         canvas = new Canvas(bitmap);
-        canvas.drawBitmap(qrLeftCode, null, new Rect(0,0,150,150), null);
-        canvas.drawBitmap(qrRightCode, null, new Rect(200, 0,150,150), null);
+        canvas.drawBitmap(qrLeftCode,0, 0, null);
+        canvas.drawBitmap(qrRightCode, 200, 0, null);
 
         return bitmap;
     }
