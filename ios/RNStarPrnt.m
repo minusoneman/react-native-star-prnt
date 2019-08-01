@@ -569,8 +569,7 @@ RCT_REMAP_METHOD(print, portName:(NSString *)portName
                 [builder appendBitmapWithAlignment:image diffusion:diffusion width:width bothScale:bothScale rotation:rotation position:alignment];
             }
             else [builder appendBitmap:image diffusion:diffusion width:width bothScale:bothScale rotation:rotation];
-        }
-        else if ([command valueForKey:@"appendBitmapText"]) {
+        } else if ([command valueForKey:@"appendBitmapText"]) {
             NSString *text = [command valueForKey:@"appendBitmapText"];
             NSInteger width = ([command valueForKey:@"width"]) ? [[command valueForKey:@"width"] intValue] : 576;
             NSString *fontName = ([command valueForKey:@"font"]) ? [command valueForKey:@"font"] : @"Menlo";
@@ -590,6 +589,13 @@ RCT_REMAP_METHOD(print, portName:(NSString *)portName
             UIImage *image = [self inversedImageWithString:text font:font width:width];
 
             [builder appendBitmap:image diffusion:NO];
+        }
+        else if ([command valueForKey:@"appendSound"]) {
+            NSInteger repeat = ([command valueForKey:@"repeat"]) ? [[command valueForKey:@"repeat"] intValue]: 2;
+            NSInteger driveTime = ([command valueForKey:@"driveTime"]) ? [[command valueForKey:@"driveTime"] intValue]: 500;
+            NSInteger delayTime = ([command valueForKey:@"delayTime"]) ? [[command valueForKey:@"delayTime"] intValue]: 500;
+            
+            [builder appendSound:SCBSoundChannelNo1 repeat:repeat driveTime:driveTime delayTime:delayTime];
         }
     }
     
