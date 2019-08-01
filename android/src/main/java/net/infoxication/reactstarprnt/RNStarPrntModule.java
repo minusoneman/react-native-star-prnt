@@ -618,7 +618,7 @@ public class RNStarPrntModule extends ReactContextBaseJavaModule {
 
                 Bitmap bitmap = createMultiQrCode(qrLeft, qrRight);
                 builder.appendBitmap(bitmap, false);
-            } eise if (command.hasKey("appendSound")) {
+            } else if (command.hasKey("appendSound")) {
               int repeat = (command.hasKey("repeat")) ? command.getInt("repeat") : 2;
               int driveTime = (command.hasKey("driveTime")) ? command.getInt("driveTime") : 500;
               int delayTime = (command.hasKey("delayTime")) ? command.getInt("delayTime") : 500;
