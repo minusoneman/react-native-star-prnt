@@ -574,8 +574,10 @@ public class RNStarPrntModule extends ReactContextBaseJavaModule {
                 boolean bothScale = (command.hasKey("bothScale")) ? command.getBoolean("bothScale") : true;
                 ICommandBuilder.BitmapConverterRotation rotation = (command.hasKey("rotation")) ? getConverterRotation(command.getString("rotation")) : getConverterRotation("Normal");
                 try {
-                    Uri imageUri =  Uri.parse(uriString);
-                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(contentResolver, imageUri);
+                    final String pureBase64Encoded = uriString.substring(uriString.indexOf(",")  + 1);
+                    byte[] decodedString = Base64.decode(pureBase64Encoded, Base64.DEFAULT);
+
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length); // MediaStore.Images.Media.getBitmap(contentResolver, imageUri);
                     if(command.hasKey("absolutePosition")){
                         int position =  command.getInt("absolutePosition");
                         builder.appendBitmapWithAbsolutePosition(bitmap, diffusion, width, bothScale, rotation, position);
@@ -583,6 +585,7 @@ public class RNStarPrntModule extends ReactContextBaseJavaModule {
                         ICommandBuilder.AlignmentPosition alignmentPosition = getAlignment(command.getString("alignment"));
                         builder.appendBitmapWithAlignment(bitmap, diffusion, width, bothScale, rotation, alignmentPosition);
                     }else builder.appendBitmap(bitmap, diffusion, width, bothScale, rotation);
+
                 } catch (IOException e) {
 
                 }
