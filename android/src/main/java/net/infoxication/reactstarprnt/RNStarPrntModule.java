@@ -119,7 +119,7 @@ public class RNStarPrntModule extends ReactContextBaseJavaModule {
         StarIOPort port = null;
         try {
 
-          port = StarIOPort.getPort(portName, portSettings, 10000, getReactApplicationContext());
+          port = StarIOPort.getPort(portName, portSettings, 3000, getReactApplicationContext());
 
           // A sleep is used to get time for the socket to completely open
           try {
@@ -567,28 +567,24 @@ public class RNStarPrntModule extends ReactContextBaseJavaModule {
                     builder.appendQrCodeWithAlignment(command.getString("appendQrCode").getBytes(encoding), qrCodeModel, qrCodeLevel, cell, alignmentPosition);
                 }else builder.appendQrCode(command.getString("appendQrCode").getBytes(encoding), qrCodeModel, qrCodeLevel, cell);
             } else if (command.hasKey("appendBitmap")){
-                ContentResolver contentResolver = context.getContentResolver();
-                String uriString = command.getString("appendBitmap");
-                boolean diffusion = (command.hasKey("diffusion")) ? command.getBoolean("diffusion") : true;
-                int width = (command.hasKey("width")) ? command.getInt("width") : 576;
-                boolean bothScale = (command.hasKey("bothScale")) ? command.getBoolean("bothScale") : true;
-                ICommandBuilder.BitmapConverterRotation rotation = (command.hasKey("rotation")) ? getConverterRotation(command.getString("rotation")) : getConverterRotation("Normal");
-                try {
-                    final String pureBase64Encoded = uriString.substring(uriString.indexOf(",")  + 1);
-                    byte[] decodedString = Base64.decode(pureBase64Encoded, Base64.DEFAULT);
+              ContentResolver contentResolver = context.getContentResolver();
+              String uriString = command.getString("appendBitmap");
+              boolean diffusion = (command.hasKey("diffusion")) ? command.getBoolean("diffusion") : true;
+              int width = (command.hasKey("width")) ? command.getInt("width") : 576;
+              boolean bothScale = (command.hasKey("bothScale")) ? command.getBoolean("bothScale") : true;
+              ICommandBuilder.BitmapConverterRotation rotation = (command.hasKey("rotation")) ? getConverterRotation(command.getString("rotation")) : getConverterRotation("Normal");
+                  final String pureBase64Encoded = uriString.substring(uriString.indexOf(",")  + 1);
+                  byte[] decodedString = Base64.decode(pureBase64Encoded, Base64.DEFAULT);
 
-                    Bitmap bitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length); // MediaStore.Images.Media.getBitmap(contentResolver, imageUri);
-                    if(command.hasKey("absolutePosition")){
-                        int position =  command.getInt("absolutePosition");
-                        builder.appendBitmapWithAbsolutePosition(bitmap, diffusion, width, bothScale, rotation, position);
-                    }else if(command.hasKey("alignment")){
-                        ICommandBuilder.AlignmentPosition alignmentPosition = getAlignment(command.getString("alignment"));
-                        builder.appendBitmapWithAlignment(bitmap, diffusion, width, bothScale, rotation, alignmentPosition);
-                    }else builder.appendBitmap(bitmap, diffusion, width, bothScale, rotation);
+                  Bitmap bitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length); // MediaStore.Images.Media.getBitmap(contentResolver, imageUri);
+                  if(command.hasKey("absolutePosition")){
+                      int position =  command.getInt("absolutePosition");
+                      builder.appendBitmapWithAbsolutePosition(bitmap, diffusion, width, bothScale, rotation, position);
+                  }else if(command.hasKey("alignment")){
+                      ICommandBuilder.AlignmentPosition alignmentPosition = getAlignment(command.getString("alignment"));
+                      builder.appendBitmapWithAlignment(bitmap, diffusion, width, bothScale, rotation, alignmentPosition);
+                  }else builder.appendBitmap(bitmap, diffusion, width, bothScale, rotation);
 
-                } catch (IOException e) {
-
-                }
             } else if (command.hasKey("appendBitmapText")){
                 int fontSize = (command.hasKey("fontSize")) ? command.getInt("fontSize") * 2 : 25;
                 boolean diffusion = (command.hasKey("diffusion")) ? command.getBoolean("diffusion") : true;
@@ -892,11 +888,11 @@ public class RNStarPrntModule extends ReactContextBaseJavaModule {
         Bitmap bitmap;
         Canvas canvas;
 
-        Bitmap qrLeftCode = QRCode.from(qrLeft).withErrorCorrection(ErrorCorrectionLevel.L).withSize(170, 170).bitmap();
-        Bitmap qrRightCode = QRCode.from(qrRight).withErrorCorrection(ErrorCorrectionLevel.L).withSize(170, 170).bitmap();
+        Bitmap qrLeftCode = QRCode.from(qrLeft).withErrorCorrection(ErrorCorrectionLevel.L).withSize(200, 200).bitmap();
+        Bitmap qrRightCode = QRCode.from(qrRight).withErrorCorrection(ErrorCorrectionLevel.L).withSize(200, 200).bitmap();
 
         // Create canvas
-        bitmap = Bitmap.createBitmap(400, 170, Bitmap.Config.ARGB_8888);
+        bitmap = Bitmap.createBitmap(400, 200, Bitmap.Config.ARGB_8888);
         canvas = new Canvas(bitmap);
         canvas.drawBitmap(qrLeftCode,0, 0, null);
         canvas.drawBitmap(qrRightCode, 200, 0, null);
