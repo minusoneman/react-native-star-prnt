@@ -119,7 +119,7 @@ public class RNStarPrntModule extends ReactContextBaseJavaModule {
         StarIOPort port = null;
         try {
 
-          port = StarIOPort.getPort(portName, portSettings, 3000, getReactApplicationContext());
+          port = StarIOPort.getPort(portName, portSettings, 10000, getReactApplicationContext());
 
           // A sleep is used to get time for the socket to completely open
           try {
