@@ -46,7 +46,7 @@
         
         total += written;
         
-        if ([[NSDate date] timeIntervalSinceDate:startDate] >= 7.0) {     // 30000mS!!!
+        if ([[NSDate date] timeIntervalSinceDate:startDate] >= 30.0) {     // 30000mS!!!
           title   = @"Printer Error";
           message = @"Write port timed out";
           break;
@@ -57,7 +57,7 @@
         break;
       }
       
-      port.endCheckedBlockTimeoutMillis = 7000;     // 30000mS!!!
+      port.endCheckedBlockTimeoutMillis = 30000;     // 30000mS!!!
       
       [port endCheckedBlock:&printerStatus :2];
       
@@ -120,7 +120,7 @@
         
         total += written;
         
-        if ([[NSDate date] timeIntervalSinceDate:startDate] >= 7.0) {     // 30000mS!!!
+        if ([[NSDate date] timeIntervalSinceDate:startDate] >= 30.0) {     // 30000mS!!!
           title   = @"Printer Error";
           message = @"Write port timed out";
           break;
@@ -194,7 +194,7 @@
         
         total += written;
         
-        if ([[NSDate date] timeIntervalSinceDate:startDate] >= 7.0) {     // 30000mS!!!
+        if ([[NSDate date] timeIntervalSinceDate:startDate] >= 30.0) {     // 30000mS!!!
           title   = @"Printer Error";
           message = @"Write port timed out";
           break;
@@ -306,7 +306,7 @@
         
         total += written;
         
-        if ([[NSDate date] timeIntervalSinceDate:startDate] >= 7.0) {     // 30000mS!!!
+        if ([[NSDate date] timeIntervalSinceDate:startDate] >= 30.0) {     // 30000mS!!!
           title   = @"Printer Error";
           message = @"Write port timed out";
           break;
@@ -317,7 +317,7 @@
         break;
       }
       
-      port.endCheckedBlockTimeoutMillis = 7000;     // 30000mS!!!
+      port.endCheckedBlockTimeoutMillis = 30000;     // 30000mS!!!
       
       [port endCheckedBlock:&printerStatus :2];
       
@@ -405,7 +405,7 @@
         
         total += written;
         
-        if ([[NSDate date] timeIntervalSinceDate:startDate] >= 7.0) {     // 30000mS!!!
+        if ([[NSDate date] timeIntervalSinceDate:startDate] >= 30.0) {     // 30000mS!!!
           title   = @"Printer Error";
           message = @"Write port timed out";
           break;
@@ -547,7 +547,7 @@
           
           total += written;
           
-          if ([[NSDate date] timeIntervalSinceDate:startDate] >= 7.0) {     // 30000mS!!!
+          if ([[NSDate date] timeIntervalSinceDate:startDate] >= 30.0) {     // 30000mS!!!
             title   = @"Printer Error";
             message = @"Write port timed out";
             break;
