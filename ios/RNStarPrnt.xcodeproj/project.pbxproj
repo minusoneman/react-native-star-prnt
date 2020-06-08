@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		311F1717248E4C8B00F46E27 /* Code39.m in Sources */ = {isa = PBXBuildFile; fileRef = 311F1715248E4C8B00F46E27 /* Code39.m */; };
 		7C26BE7720A34F3A0087529D /* Communication.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C26BE7620A34F3A0087529D /* Communication.m */; };
 		B3E7B58A1CC2AC0600A0062D /* RNStarPrnt.m in Sources */ = {isa = PBXBuildFile; fileRef = B3E7B5891CC2AC0600A0062D /* RNStarPrnt.m */; };
 /* End PBXBuildFile section */
@@ -25,6 +26,8 @@
 
 /* Begin PBXFileReference section */
 		134814201AA4EA6300B7C361 /* libRNStarPrnt.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRNStarPrnt.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		311F1715248E4C8B00F46E27 /* Code39.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Code39.m; sourceTree = "<group>"; };
+		311F1716248E4C8B00F46E27 /* Code39.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Code39.h; sourceTree = "<group>"; };
 		7C26BE7520A34F320087529D /* Communication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Communication.h; sourceTree = "<group>"; };
 		7C26BE7620A34F3A0087529D /* Communication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Communication.m; sourceTree = "<group>"; };
 		B3E7B5881CC2AC0600A0062D /* RNStarPrnt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNStarPrnt.h; sourceTree = "<group>"; };
@@ -53,6 +56,8 @@
 		58B511D21A9E6C8500147676 = {
 			isa = PBXGroup;
 			children = (
+				311F1716248E4C8B00F46E27 /* Code39.h */,
+				311F1715248E4C8B00F46E27 /* Code39.m */,
 				7C26BE7620A34F3A0087529D /* Communication.m */,
 				7C26BE7520A34F320087529D /* Communication.h */,
 				B3E7B5881CC2AC0600A0062D /* RNStarPrnt.h */,
@@ -108,6 +113,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = 58B511D21A9E6C8500147676;
@@ -127,6 +133,7 @@
 			files = (
 				7C26BE7720A34F3A0087529D /* Communication.m in Sources */,
 				B3E7B58A1CC2AC0600A0062D /* RNStarPrnt.m in Sources */,
+				311F1717248E4C8B00F46E27 /* Code39.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

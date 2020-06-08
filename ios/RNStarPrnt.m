@@ -11,6 +11,7 @@
 #import <StarIO_Extension/StarIoExt.h>
 #import <StarIO_Extension/StarIoExtManager.h>
 #import "Communication.h"
+#import "Code39.h"
 
 @implementation RNStarPrnt
 
@@ -596,6 +597,13 @@ RCT_REMAP_METHOD(print, portName:(NSString *)portName
             NSInteger delayTime = ([command valueForKey:@"delayTime"]) ? [[command valueForKey:@"delayTime"] intValue]: 500;
             
             [builder appendSound:SCBSoundChannelNo1 repeat:repeat driveTime:driveTime delayTime:delayTime];
+        }
+        else if ([command valueForKey:@"appendInvoiceBarcode"]) {
+            int barcode_width = 400;
+            int barcode_height = 50;
+            NSString *barcode = [command valueForKey:@"appendInvoiceBarcode"];
+            UIImage *code39Image = [Code39 code39ImageFromString:barcode Width:barcode_width Height:barcode_height];
+            [builder appendBitmap:code39Image diffusion:NO];
         }
     }
     
