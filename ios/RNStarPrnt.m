@@ -919,18 +919,26 @@ RCT_REMAP_METHOD(print, portName:(NSString *)portName
     
     CGContextRef context = UIGraphicsGetCurrentContext();
     
-    [[UIColor blackColor] set];
+    [[UIColor whiteColor] set];
     
-    CGRect rect = CGRectMake(0, 0, size.width + 1, size.height + 1);
+    CGRect rect = CGRectMake(0, 0, size.width + 3, size.height + 3);
     
     CGContextFillRect(context, rect);
     
+    [[UIColor blackColor] setStroke];
+    
+    //Set the width of the pen mark
+    CGContextSetLineWidth(context, 20);
+    
+    CGContextStrokeRect(context, rect);
+    
     NSDictionary *attributes = @ {
-        NSForegroundColorAttributeName:[UIColor whiteColor],
+        NSForegroundColorAttributeName:[UIColor blackColor],
                    NSFontAttributeName:font
     };
     
     [string drawInRect:rect withAttributes:attributes];
+    
     
     UIImage *imageToPrint = UIGraphicsGetImageFromCurrentImageContext();
     

@@ -866,24 +866,39 @@ public class RNStarPrntModule extends ReactContextBaseJavaModule {
 
     private Bitmap createInversedBitmapFromText(String printText, int textSize, int printWidth, Typeface typeface) {
         Paint paint = new Paint();
+        Paint strokePaint = new Paint();
         Bitmap bitmap;
         Canvas canvas;
 
         paint.setTextSize(textSize);
         paint.setTypeface(typeface);
-        paint.setColor(Color.WHITE);
         paint.getTextBounds(printText, 0, printText.length(), new Rect());
 
+        strokePaint.setStyle(Paint.Style.STROKE);
+        strokePaint.setColor(Color.BLACK);
+        strokePaint.setStrokeWidth(10);
+
+
         TextPaint textPaint = new TextPaint(paint);
-        android.text.StaticLayout staticLayout = new StaticLayout(printText, textPaint, printWidth, Layout.Alignment.ALIGN_NORMAL, 1, 0, false);
+        android.text.StaticLayout staticLayout = new StaticLayout(printText, textPaint, printWidth,
+                Layout.Alignment.ALIGN_NORMAL, 1, 0, false);
 
         // Create bitmap
         bitmap = Bitmap.createBitmap(staticLayout.getWidth(), staticLayout.getHeight(), Bitmap.Config.ARGB_8888);
 
+        RectF r = new RectF(0,0, bitmap.getWidth(), bitmap.getHeight());
+
         // Create canvas
         canvas = new Canvas(bitmap);
-        canvas.drawColor(Color.BLACK);
+        canvas.drawColor(Color.WHITE);
+
+
         canvas.translate(0, 0);
+
+        // Draw border
+        int cornerRadius = 10;
+        canvas.drawRoundRect(r, cornerRadius, cornerRadius, strokePaint);
+
         staticLayout.draw(canvas);
 
         return bitmap;
