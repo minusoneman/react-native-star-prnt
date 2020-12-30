@@ -573,7 +573,7 @@ RCT_REMAP_METHOD(print, portName:(NSString *)portName
         } else if ([command valueForKey:@"appendBitmapText"]) {
             NSString *text = [command valueForKey:@"appendBitmapText"];
             NSInteger width = ([command valueForKey:@"width"]) ? [[command valueForKey:@"width"] intValue] : 576;
-            NSString *fontName = ([command valueForKey:@"font"]) ? [command valueForKey:@"font"] : @"Menlo";
+            NSString *fontName = ([command valueForKey:@"font"]) ? [command valueForKey:@"font"] : @"Inconsolata-Regular";
             NSInteger fontSize = ([command valueForKey:@"fontSize"]) ? [[command valueForKey:@"fontSize"] intValue] : 12;
 
             UIFont *font = [UIFont fontWithName:fontName size:fontSize * 2];
@@ -583,7 +583,7 @@ RCT_REMAP_METHOD(print, portName:(NSString *)portName
         } else if ([command valueForKey:@"appendInversedBitmapText"]) {
             NSString *text = [command valueForKey:@"appendInversedBitmapText"];
             NSInteger width = ([command valueForKey:@"width"]) ? [[command valueForKey:@"width"] intValue] : 576;
-            NSString *fontName = ([command valueForKey:@"font"]) ? [command valueForKey:@"font"] : @"Menlo";
+            NSString *fontName = ([command valueForKey:@"font"]) ? [command valueForKey:@"font"] : @"Inconsolata-Regular";
             NSInteger fontSize = ([command valueForKey:@"fontSize"]) ? [[command valueForKey:@"fontSize"] intValue] : 12;
 
             UIFont *font = [UIFont fontWithName:fontName size:fontSize * 2];

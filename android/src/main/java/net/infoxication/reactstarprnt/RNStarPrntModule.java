@@ -51,6 +51,7 @@ import com.starmicronics.starioextension.ICommandBuilder.CutPaperAction;
 import com.starmicronics.starioextension.ICommandBuilder.CodePageType;
 import com.starmicronics.starioextension.StarIoExtManager;
 import com.starmicronics.starioextension.StarIoExtManagerListener;
+import android.graphics.RectF;
 
 import net.glxn.qrgen.android.QRCode;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
@@ -582,7 +583,7 @@ public class RNStarPrntModule extends ReactContextBaseJavaModule {
                 int width = (command.hasKey("width")) ? command.getInt("width") : 576;
                 boolean bothScale = (command.hasKey("bothScale")) ? command.getBoolean("bothScale") : true;
                 String text = command.getString("appendBitmapText");
-                Typeface typeface = Typeface.create(Typeface.MONOSPACE, Typeface.NORMAL);
+                Typeface typeface = Typeface.createFromAsset(reactContext.getAssets(), "fonts/Inconsolata-Regular.ttf");
                 Bitmap bitmap = createBitmapFromText(text, fontSize, width, typeface);
                 ICommandBuilder.BitmapConverterRotation rotation = (command.hasKey("rotation")) ? getConverterRotation(command.getString("rotation")) : getConverterRotation("Normal");
                 if(command.hasKey("absolutePosition")){
@@ -598,9 +599,8 @@ public class RNStarPrntModule extends ReactContextBaseJavaModule {
                 int width = (command.hasKey("width")) ? command.getInt("width") : 576;
                 boolean bothScale = (command.hasKey("bothScale")) ? command.getBoolean("bothScale") : true;
                 String text = command.getString("appendInversedBitmapText");
-                Typeface typeface = Typeface.create(Typeface.MONOSPACE, Typeface.NORMAL);
+                Typeface typeface = Typeface.createFromAsset(reactContext.getAssets(), "fonts/Inconsolata-Regular.ttf");
                 Bitmap bitmap = createInversedBitmapFromText(text, fontSize, width, typeface);
-
                 builder.appendBitmap(bitmap, diffusion, width, bothScale);
             } else if (command.hasKey("multiQrCode")) {
                 String qrLeft = command.getString("appendQrCodeLeft");
