@@ -25,8 +25,5 @@
     "android"
   ],
   "author": "Ruben Casas",
-  "license": "MIT",
-  "peerDependencies": {
-    "react-native": "^0.62.2"
-  }
+  "license": "MIT"
 }
